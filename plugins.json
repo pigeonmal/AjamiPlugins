@@ -1,0 +1,39 @@
+[
+    {
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/pigeonmal/AjamiPlugins",
+        "fileSize": 45720,
+        "status": 1,
+        "language": "fr",
+        "authors": [
+            "pigeonmal"
+        ],
+        "tvTypes": [
+            "TvSeries",
+            "Movie"
+        ],
+        "version": 1,
+        "internalName": "AjamiStreaming",
+        "description": "Streaming films et s\u00e9ries fr, avec sous titres",
+        "url": "https://raw.githubusercontent.com/pigeonmal/AjamiPlugins/builds/AjamiStreaming.cs3",
+        "name": "AjamiStreaming"
+    },
+    {
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/pigeonmal/AjamiPlugins",
+        "fileSize": 12524,
+        "status": 1,
+        "language": "ar",
+        "authors": [
+            "pigeonmal"
+        ],
+        "tvTypes": [
+            "Live"
+        ],
+        "version": 1,
+        "internalName": "AjamiTv",
+        "description": "AjamiTv",
+        "url": "https://raw.githubusercontent.com/pigeonmal/AjamiPlugins/builds/AjamiTv.cs3",
+        "name": "AjamiTv"
+    }
+]
