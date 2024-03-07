@@ -1,4 +1,4 @@
 # `AjamiPlugins`
 
 CloudStream plugin :
-- AjamiTv (Live bein sports, tv channels, ...)
+- AjamiTv (Live sports, tv channels, ...)
