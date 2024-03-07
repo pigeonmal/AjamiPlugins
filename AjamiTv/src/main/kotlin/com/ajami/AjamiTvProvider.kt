@@ -37,9 +37,10 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
 
     override suspend fun load(url: String): LoadResponse {
         val channelData = parseJson<Channel>(url)
+        val id = channelData.id.toString()
         return LiveStreamLoadResponse(
             channelData.name,
-            mainUrl + channelData.id.toString() + "/index.m3u8",
+            "$mainUrl$id/index.m3u8"
             this.name,
             url,
             channelData.poster
@@ -53,12 +54,13 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         callback: (ExtractorLink) -> Unit
     ): Boolean {
         val channelData = parseJson<Channel>(data)
+        val id = channelData.id.toString()
 
         callback.invoke(
             ExtractorLink(
                 this.name,
                 channelData.name,
-                mainUrl + channelData.id.toString() + "/index.m3u8",
+              "$mainUrl$id/index.m3u8",
                 "",
                 Qualities.Unknown.value,
                 isM3u8 = true
