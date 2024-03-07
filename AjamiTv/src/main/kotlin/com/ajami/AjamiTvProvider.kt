@@ -79,7 +79,6 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     }
 
     companion object {
-
         val premiumBein1PosterUrl = "https://i.goalzz.com/?i=o%2Fh%2F1%2F892%2Fbein-sports-premium-1.png"
         val premiumBein2PosterUrl = "https://i.goalzz.com/?i=o%2Fh%2F1%2F893%2Fbein-sports-premium-1.png"
         val premiumBein3PosterUrl = "https://i.goalzz.com/?i=o%2Fh%2F1%2F894%2Fbein-sports-premium-1.png"
