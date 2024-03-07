@@ -18,19 +18,22 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         "bp" to "⚽ Bein Sports Premium",
     )
 
-    override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
-        val channels = channelsMap[request.data];
-        val livesList = channels?.map { channel ->
-            LiveSearchResponse(
+  override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+    val channels = channelsMap[request.data]
+    val livesList: List<LiveSearchResponse>? = channels?.map { channel ->
+        LiveSearchResponse(
             channel.name,
             channel.toString(),
             this.name,
             TvType.Live,
-            posterUrl = channel.poster,
+            posterUrl = channel.poster
         )
-        }
-        return newHomePageResponse(request.name, livesList)
     }
+    // Assuming newHomePageResponse accepts a list of SearchResponse
+    val searchResponseList: List<SearchResponse> = livesList.orEmpty() // Convert to List<SearchResponse>
+    return newHomePageResponse(request.name, searchResponseList)
+}
+
 
     override suspend fun load(url: String): LoadResponse {
         val channelData = parseJson<Channel>(url)
