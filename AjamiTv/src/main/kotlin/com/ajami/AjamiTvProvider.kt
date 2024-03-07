@@ -23,7 +23,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     val livesList: List<LiveSearchResponse>? = channels?.map { channel ->
         LiveSearchResponse(
             channel.name,
-            channel.toString(),
+            channel.toJson(),
             this.name,
             TvType.Live,
             posterUrl = channel.poster
