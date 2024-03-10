@@ -8,6 +8,7 @@ import com.lagradost.cloudstream3.utils.*
 open class Frembed : ExtractorApi() {
     override val name = "Frembed"
     override val mainUrl = "https://frembed.fun"
+    override val requiresReferer = False
 
     override suspend fun getUrl(
         url: String,
