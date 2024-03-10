@@ -9,8 +9,7 @@ open class Frembed : ExtractorApi() {
     override val name = "Frembed"
     override val mainUrl = "https://frembed.fun"
     override val requiresReferer = false
-    private val srcRegex2 = Regex("""player\.src\([\w\W]*src: "(.*?)"""")
-
+    private val pattern = """src:\s*'([^']+)'""".toRegex()
 
     override suspend fun getUrl(
         url: String,
@@ -20,15 +19,16 @@ open class Frembed : ExtractorApi() {
     ) {
         val response = app.get(url)
         val unpackedText = getAndUnpack(response.text)
+        val matches = pattern.find(unpackedText)
 
-        srcRegex2.find(unpackedText)?.groupValues?.get(1)?.let { link ->
-            M3u8Helper.generateM3u8(
+        // Extract the m3u8 link from the matches
+        val m3u8Link = matches?.groups?.get(1)?.value
+        M3u8Helper.generateM3u8(
             name,
-            link,
+            m3u8Link ?: return,
             url,
             Qualities.P1080.value,
         ).forEach(callback)
-        }
     }
 
 }
