@@ -35,6 +35,12 @@ open class AjamiStreamingProvider : TmdbProvider() {
             }
         }  
 
+        fun getStatus(t: String?): ShowStatus {
+            return when (t) {
+                "Returning Series" -> ShowStatus.Ongoing
+                else -> ShowStatus.Completed
+            }
+        }
         // Sources
     }
 
@@ -84,7 +90,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
             }
     }
 
-    override suspend fun load(url: String): LoadResponse {
+    override suspend fun load(url: String): LoadResponse? {
          val data = parseJson<Data>(url)
         val type = getType(data.type)
         val append = "alternative_titles,credits,external_ids,keywords,videos,recommendations"
@@ -180,7 +186,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
                 this.showStatus = getStatus(res.status)
                 this.recommendations = recommendations
                 this.actors = actors
-                this.contentRating = fetchContentRating(data.id, "US")
+                this.contentRating = fetchContentRating(data.id, "FR")
                 addTrailer(trailer)
                 addTMDbId(data.id.toString())
                 addImdbId(res.external_ids?.imdb_id)
@@ -216,7 +222,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
                 this.rating = rating
                 this.recommendations = recommendations
                 this.actors = actors
-                this.contentRating = fetchContentRating(data.id, "US")
+                this.contentRating = fetchContentRating(data.id, "FR")
                 addTrailer(trailer)
                 addTMDbId(data.id.toString())
                 addImdbId(res.external_ids?.imdb_id)
@@ -231,7 +237,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
         callback: (ExtractorLink) -> Unit
     ): Boolean {
               val res = parseJson<LinkData>(data)
-
+        return false
     }
 
 
