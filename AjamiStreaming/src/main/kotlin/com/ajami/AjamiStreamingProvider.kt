@@ -47,7 +47,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
     override val mainPage = mainPageOf(
         "$tmdbAPI/trending/movie/day?api_key=$apiKey&language=fr-FR&region=FR" to "Films tendences",
         "$tmdbAPI/trending/tv/day?api_key=$apiKey&language=fr-FR&region=FR" to "Séries tendences",
-        "$tmdbAPI/discover/tv?api_key=$apiKey&region=FR&language=fr-FR&with_genres=35" to "😂 Comédie Films"
+        "$tmdbAPI/discover/movie?api_key=$apiKey&region=FR&language=fr-FR&with_genres=35" to "😂 Comédie Films"
     )
 
      private fun getImageUrl(link: String?): String? {
@@ -95,9 +95,9 @@ open class AjamiStreamingProvider : TmdbProvider() {
         val type = getType(data.type)
         val append = "alternative_titles,credits,external_ids,keywords,videos,recommendations"
         val resUrl = if (type == TvType.Movie) {
-            "$tmdbAPI/movie/${data.id}?api_key=$apiKey&append_to_response=$append"
+            "$tmdbAPI/movie/${data.id}?api_key=$apiKey&language=fr-FR&append_to_response=$append"
         } else {
-            "$tmdbAPI/tv/${data.id}?api_key=$apiKey&append_to_response=$append"
+            "$tmdbAPI/tv/${data.id}?api_key=$apiKey&language=fr-FR&append_to_response=$append"
         }
         val res = app.get(resUrl).parsedSafe<MediaDetail>()
             ?: throw ErrorLoadingException("Invalid Json Response")

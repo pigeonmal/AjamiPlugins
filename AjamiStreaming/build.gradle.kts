@@ -5,8 +5,8 @@ version = 1
 
 android {
     defaultConfig {
-        val tmdbApi = "\"${System.getenv("TMDB_API") ?: ""}\""
-        buildConfigField("String", "TMDB_API", tmdbApi)
+      //  val tmdbApi = "\"${System.getenv("TMDB_API") ?: ""}\""
+      //  buildConfigField("String", "TMDB_API", tmdbApi)
     }
 }
 
