@@ -12,9 +12,11 @@ import com.lagradost.cloudstream3.utils.AppUtils.toJson
 import com.lagradost.cloudstream3.utils.ExtractorLink
 import kotlin.math.roundToInt
 
+import com.ajami.AjamiStreamingExtractor.invokeFrembed
+
 // Thanks SoraStream (Hexated repo) for structure class of tmdb
 open class AjamiStreamingProvider : TmdbProvider() { 
-    override var name = "AjamiStreaming"
+    override var name = "AjamiStream"
     override val supportedTypes = setOf(TvType.Movie, TvType.TvSeries)
     override var lang = "fr"
     override val hasMainPage = true
@@ -42,12 +44,15 @@ open class AjamiStreamingProvider : TmdbProvider() {
             }
         }
         // Sources
+        const val frembedAPI = "https://frembed.fun/api"
     }
 
     override val mainPage = mainPageOf(
         "$tmdbAPI/trending/movie/day?api_key=$apiKey&language=fr-FR&region=FR" to "Films tendences",
         "$tmdbAPI/trending/tv/day?api_key=$apiKey&language=fr-FR&region=FR" to "Séries tendences",
-        "$tmdbAPI/discover/movie?api_key=$apiKey&region=FR&language=fr-FR&with_genres=35" to "😂 Comédie Films"
+        "$tmdbAPI/discover/movie?api_key=$apiKey&region=FR&language=fr-FR&with_genres=35" to "😂 Comédie Films",
+        "$tmdbAPI/discover/movie?api_key=$apiKey&region=FR&language=fr-FR&with_genres=36" to "🎞️ Historiques Films",
+        "$tmdbAPI/discover/movie?api_key=$apiKey&region=FR&language=fr-FR&with_genres=28" to "🤺 Actions Films",
     )
 
      private fun getImageUrl(link: String?): String? {
@@ -135,7 +140,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
         return if (type == TvType.TvSeries) {
             val lastSeason = res.last_episode_to_air?.season_number
             val episodes = res.seasons?.mapNotNull { season ->
-                app.get("$tmdbAPI/${data.type}/${data.id}/season/${season.seasonNumber}?api_key=$apiKey")
+                app.get("$tmdbAPI/${data.type}/${data.id}/season/${season.seasonNumber}?api_key=$apiKey&language=fr-FR")
                     .parsedSafe<MediaDetailEpisodes>()?.episodes?.map { eps ->
                         Episode(
                             LinkData(
@@ -236,8 +241,13 @@ open class AjamiStreamingProvider : TmdbProvider() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-              val res = parseJson<LinkData>(data)
-        return false
+        val res = parseJson<LinkData>(data)
+        argamap(
+            {
+                invokeFrembed(res.id, res.season, res.episode, subtitleCallback, callback)
+            }
+            )
+        return true
     }
 
 
