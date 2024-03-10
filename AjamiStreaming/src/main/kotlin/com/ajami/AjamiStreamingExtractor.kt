@@ -59,13 +59,15 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
             "series/$imdbId:$season:$episode"
         }
         app.get("${openSubAPI}/subtitles/$slug.json", timeout = 120L).parsedSafe<OsResult>()?.subtitles?.map { sub ->
-            subtitleCallback.invoke(
-                SubtitleFile(
-                    SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
-                    ?: return@map,
-                    sub.url ?: return@map
+            if(sub.lang == "ara") {
+                subtitleCallback.invoke(
+                    SubtitleFile(
+                        SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
+                        ?: return@map,
+                        sub.url ?: return@map
+                    )
                 )
-            )
+            }
         }
     }
 
