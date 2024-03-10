@@ -12,8 +12,6 @@ import com.lagradost.cloudstream3.utils.AppUtils.toJson
 import com.lagradost.cloudstream3.utils.ExtractorLink
 import kotlin.math.roundToInt
 
-import com.lagradost.cloudstream3.network.CloudflareKiller
-
 // Thanks SoraStream (Hexated repo) for structure class of tmdb
 open class AjamiStreamingProvider : TmdbProvider() { 
     override var name = "AjamiStreaming"
