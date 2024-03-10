@@ -8,7 +8,7 @@ import com.lagradost.cloudstream3.utils.*
 open class Frembed : ExtractorApi() {
     override val name = "Frembed"
     override val mainUrl = "https://frembed.fun"
-    override val requiresReferer = true
+    override val requiresReferer = false
     private val srcRegex2 = Regex("""player\.src\([\w\W]*src: "(.*?)"""")
 
 
@@ -25,7 +25,7 @@ open class Frembed : ExtractorApi() {
             M3u8Helper.generateM3u8(
             name,
             link,
-            mainUrl,
+            url,
             Qualities.P1080.value,
         ).forEach(callback)
         }
