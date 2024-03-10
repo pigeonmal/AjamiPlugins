@@ -3,7 +3,7 @@ package com.ajami
 import com.lagradost.nicehttp.Requests
 import com.lagradost.nicehttp.Session
 import java.net.URLDecoder
-import java.util.Base64
+import android.util.Base64
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.lagradost.cloudstream3.utils.ExtractorLink
 import com.lagradost.cloudstream3.utils.loadExtractor
@@ -41,7 +41,7 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
 
         app.get(url).document.select("a.link-button").apmap { el ->
             val dataLink = el.attr("data-link")
-            val decodedDataLink = String(Base64.getDecoder().decode(dataLink))
+            val decodedDataLink = String(Base64.decode(dataLink, Base64.DEFAULT))
             val decodedURI = URLDecoder.decode(decodedDataLink, "UTF-8")
             loadExtractor(decodedURI, subtitleCallback, callback)
         }
