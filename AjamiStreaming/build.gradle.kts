@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.konan.properties.Properties
 
 
 // use an integer for version numbers
@@ -6,10 +5,8 @@ version = 1
 
 android {
     defaultConfig {
-        val properties = Properties()
-        properties.load(project.rootProject.file("local.properties").inputStream())
-
-        buildConfigField("String", "TMDB_API", "\"${properties.getProperty("TMDB_API")}\"")
+        val TMDB_API = System.getenv("TMDB_API");
+        buildConfigField("String", "TMDB_API", "\"${TMDB_API}\"")
     }
 }
 
