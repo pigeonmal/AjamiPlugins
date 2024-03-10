@@ -26,7 +26,7 @@ open class AjamiStreamingProvider : TmdbProvider() {
 
     companion object {
         private const val tmdbAPI = "https://api.themoviedb.org/3"
-        private const val apiKey = BuildConfig.TMDB_API
+        private const val apiKey = "8cf43ad9c085135b9479ad5cf6bbcbda"
 
         fun getType(t: String?): TvType {
             return when (t) {
