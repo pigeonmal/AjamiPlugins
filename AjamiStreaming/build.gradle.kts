@@ -14,7 +14,7 @@ cloudstream {
     // All of these properties are optional, you can safely remove them
     language = "fr"
 
-    description = "Streaming films et séries fr, sous titres arabe"
+    description = "Streaming films et séries fr, avec sous titres"
     authors = listOf("pigeonmal")
 
     /**

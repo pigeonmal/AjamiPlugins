@@ -13,6 +13,7 @@ import com.lagradost.cloudstream3.utils.ExtractorLink
 import kotlin.math.roundToInt
 
 import com.ajami.AjamiStreamingExtractor.invokeFrembed
+import com.ajami.AjamiStreamingExtractor.invokeOpenSubs
 
 // Thanks SoraStream (Hexated repo) for structure class of tmdb
 open class AjamiStreamingProvider : TmdbProvider() { 
@@ -43,8 +44,11 @@ open class AjamiStreamingProvider : TmdbProvider() {
                 else -> ShowStatus.Completed
             }
         }
-        // Sources
+        // Sources Video
         const val frembedAPI = "https://frembed.fun/api"
+        // Sources sub
+        const val openSubAPI = "https://opensubtitles-v3.strem.io"
+
     }
 
     override val mainPage = mainPageOf(
@@ -245,6 +249,9 @@ open class AjamiStreamingProvider : TmdbProvider() {
         argamap(
             {
                 invokeFrembed(res.id, res.season, res.episode, subtitleCallback, callback)
+            },
+            {
+                invokeOpenSubs(res.imdbId, res.season, res.episode, subtitleCallback)
             }
             )
         return true

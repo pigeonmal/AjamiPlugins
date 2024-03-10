@@ -13,6 +13,15 @@ import com.lagradost.cloudstream3.apmap
 
 val session = Session(Requests().baseClient)
 
+data class OsSubtitles(
+        @JsonProperty("url") val url: String? = null,
+        @JsonProperty("lang") val lang: String? = null,
+    )
+
+data class OsResult(
+    @JsonProperty("subtitles") val subtitles: ArrayList<OsSubtitles>? = arrayListOf(),
+)
+
 object AjamiStreamingExtractor : AjamiStreamingProvider() {
 
     suspend fun invokeFrembed(
@@ -34,8 +43,28 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
             val decodedURI = URLDecoder.decode(decodedDataLink, "UTF-8")
             loadExtractor(decodedURI, subtitleCallback, callback)
         }
+    }
 
-        
+    suspend fun invokeOpenSubs(
+        imdbId: String? = null,
+        season: Int? = null,
+        episode: Int? = null,
+        subtitleCallback: (SubtitleFile) -> Unit,
+    ) {
+        val slug = if(season == null) {
+            "movie/$imdbId"
+        } else {
+            "series/$imdbId:$season:$episode"
+        }
+        app.get("${openSubAPI}/subtitles/$slug.json", timeout = 120L).parsedSafe<OsResult>()?.subtitles?.map { sub ->
+            subtitleCallback.invoke(
+                SubtitleFile(
+                    SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
+                    ?: return@map,
+                    sub.url ?: return@map
+                )
+            )
+        }
     }
 
 
