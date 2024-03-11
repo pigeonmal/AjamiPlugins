@@ -67,7 +67,7 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
                         SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
                         ?: return@map,
                         sub.url ?: return@map,
-                        offset
+                        offset ? -offset*1000 : null 
                     )
                 )
             
