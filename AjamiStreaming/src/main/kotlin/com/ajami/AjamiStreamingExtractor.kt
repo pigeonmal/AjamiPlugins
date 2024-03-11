@@ -61,13 +61,14 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
         }
         app.get("${openSubAPI}/subtitles/$slug.json").parsedSafe<OsResult>()?.subtitles?.map { sub ->
             val offset: Long? = sub.stringOffset?.toLongOrNull()
+            val multipliedOffset = offset?.let { it * -1000 }
 
                 subtitleCallback.invoke(
                     SubtitleFile(
                         SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
                         ?: return@map,
                         sub.url ?: return@map,
-                        offset ? -offset*1000 : null 
+                        multipliedOffset 
                     )
                 )
             
