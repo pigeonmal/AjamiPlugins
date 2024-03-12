@@ -62,7 +62,7 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
         val sortedList = app.get("${openSubAPI}/subtitles/$slug.json").parsedSafe<OsResult>()?.subtitles?.sortedByDescending {
             it.offsetString?.toLongOrNull() ?: Long.MIN_VALUE
         }
-        sortedList.map { sub ->
+        sortedList?.map { sub ->
                 subtitleCallback.invoke(
                     SubtitleFile(
                         SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
