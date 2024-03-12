@@ -69,7 +69,7 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
                 sub.url ?: return@forEach
             )
         )
-    
+    }
     }
 
 
