@@ -63,6 +63,7 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
             it.offsetString?.toLongOrNull() ?: Long.MIN_VALUE
         }
         sortedList?.map { sub ->
+            if (sub.lang == "ara" && sub.lang != null) {
                 subtitleCallback.invoke(
                     SubtitleFile(
                         SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
@@ -70,7 +71,7 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
                         sub.url ?: return@map,
                     )
                 )
-            
+            }
         }
     }
 
