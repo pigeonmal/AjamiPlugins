@@ -70,10 +70,10 @@ subprojects {
         val implementation by configurations
 
         // Stubs for all Cloudstream classes
-        //apk("com.lagradost:cloudstream3:pre-release")
+        apk("com.lagradost:cloudstream3:pre-release")
 
         // Modified cloudstream classes
-        implementation(files("../libs/classes.jar"))
+        //implementation(files("../libs/classes.jar"))
 
 
         // these dependencies can include any of those which are added by the app,
