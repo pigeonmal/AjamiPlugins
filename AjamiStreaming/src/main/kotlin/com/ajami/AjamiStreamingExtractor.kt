@@ -18,6 +18,7 @@ val session = Session(Requests().baseClient)
 data class OsSubtitles(
         @JsonProperty("url") val url: String? = null,
         @JsonProperty("lang") val lang: String? = null,
+        @JsonProperty("g") val offsetString: String? = null,
     )
 
 data class OsResult(
@@ -58,7 +59,10 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
         } else {
             "series/$imdbId:$season:$episode"
         }
-        app.get("${openSubAPI}/subtitles/$slug.json").parsedSafe<OsResult>()?.subtitles?.map { sub ->
+        val sortedList = app.get("${openSubAPI}/subtitles/$slug.json").parsedSafe<OsResult>()?.subtitles?.sortedByDescending {
+            it.offsetString?.toLongOrNull() ?: Long.MIN_VALUE
+        }
+        sortedList.map { sub ->
                 subtitleCallback.invoke(
                     SubtitleFile(
                         SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
