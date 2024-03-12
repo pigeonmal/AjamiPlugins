@@ -59,20 +59,17 @@ object AjamiStreamingExtractor : AjamiStreamingProvider() {
         } else {
             "series/$imdbId:$season:$episode"
         }
-        val sortedList = app.get("${openSubAPI}/subtitles/$slug.json").parsedSafe<OsResult>()?.subtitles?.sortedByDescending {
-            it.offsetString?.toLongOrNull() ?: Long.MIN_VALUE
-        }
-        sortedList?.map { sub ->
-            if (sub.lang == "ara" && sub.lang != null) {
-                subtitleCallback.invoke(
-                    SubtitleFile(
-                        SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang
-                        ?: return@map,
-                        sub.url ?: return@map,
-                    )
-                )
-            }
-        }
+    app.get("${openSubAPI}/subtitles/$slug.json").parsedSafe<OsResult>()?.subtitles
+    ?.filter { it.lang == "ara" } // Filter only "ara" lang subtitles
+    ?.sortedByDescending { it.offsetString?.toIntOrNull() ?: Int.MIN_VALUE } // Sort by offsetString descending
+    ?.forEach { sub ->
+        subtitleCallback.invoke(
+            SubtitleFile(
+                SubtitleHelper.fromThreeLettersToLanguage(sub.lang ?: "") ?: sub.lang ?: return@forEach,
+                sub.url ?: return@forEach
+            )
+        )
+    
     }
 
 
