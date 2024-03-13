@@ -1,6 +1,6 @@
 dependencies {
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
+   implementation("androidx.appcompat:appcompat:1.3.0")
+
 }
 // use an integer for version numbers
 version = 1
