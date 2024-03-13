@@ -130,7 +130,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         @JsonProperty("name") val name: String,
     )
     data class OhaChannels(
-        @JsonProperty("channels") val results: ArrayList<OhaChannel>? = arrayListOf(),
+        @JsonProperty("channels") val channels: ArrayList<OhaChannel>? = arrayListOf(),
     )
 
 
