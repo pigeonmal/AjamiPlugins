@@ -50,15 +50,15 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
              channelsList = listOhaChannels
                 .filter { it.name in wantedChannelNames }
                 .mapNotNull { ohaChannel ->
-                    val wantedChannel = wantedChannels.find { it.name == ohaChannel.name }
-                    wantedChannel?.let { wantedChannel ->
-                      Channel(ohaChannel.name, ohaChannel.id, ohaChannel.country, wantedChannel.poster, wantedChannel.group)
+                    val wc = wantedChannels.find { it.name == ohaChannel.name }
+                    wc?.let {
+                      Channel(ohaChannel.name, ohaChannel.id, ohaChannel.country, it.poster, it.group)
                     }
                 }.filterNotNull()
         }
     }
     val channels = channelsList.filter { it.group == request.data }
-    val livesList: List<LiveSearchResponse>? = channels?.map { channel ->
+    val livesList: List<LiveSearchResponse>? = channels.map { channel ->
         LiveSearchResponse(
             channel.name,
             channel.toJson(),
