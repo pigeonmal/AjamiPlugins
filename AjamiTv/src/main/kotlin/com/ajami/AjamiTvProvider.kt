@@ -5,6 +5,10 @@ import com.lagradost.cloudstream3.utils.AppUtils.toJson
 import com.lagradost.cloudstream3.utils.AppUtils.parseJson
 import com.lagradost.cloudstream3.utils.ExtractorLink
 import com.lagradost.cloudstream3.utils.Qualities
+import com.lagradost.cloudstream3.ui.player.GeneratorPlayer
+import com.lagradost.cloudstream3.ui.player.BasicLink
+import com.lagradost.cloudstream3.ui.player.LinkGenerator
+
 
 class AjamiTvProvider : MainAPI() { // all providers must be an instance of MainAPI
     override var mainUrl = "https://oha.to/play/"
@@ -35,16 +39,26 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
 }
 
 
-    override suspend fun load(url: String): LoadResponse {
+    override suspend fun load(url: String): LoadResponse? {
         val channelData = parseJson<Channel>(url)
         val id = channelData.id.toString()
-        return LiveStreamLoadResponse(
-            channelData.name,
-            "$mainUrl$id/index.m3u8",
-            this.name,
-            url,
-            channelData.poster
-        )
+//        return LiveStreamLoadResponse(
+//            channelData.name,
+//           "$mainUrl$id/index.m3u8",
+//           this.name,
+//           url,
+//           channelData.poster
+//       )
+            activity?.navigate(
+                        R.id.global_to_navigation_player,
+                        GeneratorPlayer.newInstance(
+                            LinkGenerator(
+                                listOf(BasicLink("$mainUrl$id/index.m3u8")),
+                                extract = true,
+                                isM3u8 = true
+                            )
+                        )
+                    )
     }
 
     override suspend fun loadLinks(
