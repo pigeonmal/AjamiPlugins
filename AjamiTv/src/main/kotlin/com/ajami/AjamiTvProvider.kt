@@ -18,6 +18,7 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
     override val supportedTypes = setOf(TvType.Live)
     override var lang = "ar"
     override val hasMainPage = true
+    val idnavigationplayer = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
 
     companion object {
         val premiumBein1PosterUrl = "https://media.discordapp.net/attachments/1052649740732481569/1215345348818636820/beinpremium1.png?ex=65fc698f&is=65e9f48f&hm=78a133a0068ff47ab9176877bed0608aa013529367030a6656608de6480e293b&=&format=png&quality=lossless"
@@ -28,7 +29,6 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         
         val channelsMap = mapOf("bp" to BeinPremiumChannels)
 
-        val idnavigationplayer = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
 
     }
 
