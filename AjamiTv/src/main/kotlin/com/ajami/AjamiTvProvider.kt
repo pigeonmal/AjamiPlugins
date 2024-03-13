@@ -37,7 +37,12 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     }
 
 
-    fun searchList() {
+    override val mainPage = mainPageOf(
+        "bp" to "⚽ Bein Sports Premium",
+    )
+
+  override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+    if (channelsList.isEmpty()) {
         val wantedChannelNames = wantedChannels.map { it.name }
 
         val listOhaChannels = app.get("https://oha.to/channels").parsedSafe<List<OhaChannel>>()
@@ -51,15 +56,6 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
                     }
                 }.filterNotNull()
         }
-    }
-
-    override val mainPage = mainPageOf(
-        "bp" to "⚽ Bein Sports Premium",
-    )
-
-  override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
-    if (channelsList.isEmpty()) {
-        searchList()
     }
     val channels = channelsList.filter { it.group == request.data }
     val livesList: List<LiveSearchResponse>? = channels?.map { channel ->
