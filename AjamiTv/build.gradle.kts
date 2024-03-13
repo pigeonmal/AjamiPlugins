@@ -1,3 +1,6 @@
+dependencies {
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+}
 // use an integer for version numbers
 version = 1
 
