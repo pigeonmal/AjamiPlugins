@@ -21,7 +21,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     override val supportedTypes = setOf(TvType.Live)
     override var lang = "ar"
     override val hasMainPage = true
-    var channelsList: List<OhaChannel> = emptyList()
+    var channelsList: List<Channel> = emptyList()
 
     data class wantedChannel(
         val group: String,
