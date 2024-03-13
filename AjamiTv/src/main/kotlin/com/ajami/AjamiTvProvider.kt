@@ -67,7 +67,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
             )
         return LiveStreamLoadResponse(
             channelData.name,
-           "$mainUrl$id/index.m3u8",
+           "$mainUrl$idlive/index.m3u8",
            this.name,
            url,
            channelData.poster
