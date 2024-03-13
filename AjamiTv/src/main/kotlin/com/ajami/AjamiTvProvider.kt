@@ -8,9 +8,10 @@ import com.lagradost.cloudstream3.utils.Qualities
 import com.lagradost.cloudstream3.ui.player.GeneratorPlayer
 import com.lagradost.cloudstream3.ui.player.BasicLink
 import com.lagradost.cloudstream3.ui.player.LinkGenerator
+import androidx.appcompat.app.AppCompatActivity
 
 
-class AjamiTvProvider : MainAPI() { // all providers must be an instance of MainAPI
+class AjamiTvProvider(val activity : AppCompatActivity) : MainAPI() { // all providers must be an instance of MainAPI
     override var mainUrl = "https://oha.to/play/"
     override var name = "AjamiTv"
     override val hasDownloadSupport = false
@@ -59,6 +60,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
                             )
                         )
                     )
+        return null
     }
 
     override suspend fun loadLinks(
