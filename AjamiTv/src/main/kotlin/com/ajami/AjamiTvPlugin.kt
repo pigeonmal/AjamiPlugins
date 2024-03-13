@@ -11,6 +11,6 @@ class AjamiTvPlugin: Plugin() {
         val activity = context as Activity
 
         // All providers should be added in this manner. Please don't edit the providers list directly.
-        registerMainAPI(AjamiTvProvider(activity))
+        registerMainAPI(AjamiTvProvider())
     }
 }
