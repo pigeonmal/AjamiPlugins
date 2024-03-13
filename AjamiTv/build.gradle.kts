@@ -1,7 +1,4 @@
-dependencies {
-   implementation("androidx.appcompat:appcompat:1.3.0")
 
-}
 // use an integer for version numbers
 version = 1
 
@@ -26,10 +23,4 @@ cloudstream {
     // You can find a list of avaliable types here:
     // https://recloudstream.github.io/cloudstream/html/app/com.lagradost.cloudstream3/-tv-type/index.html
     tvTypes = listOf("Live")
-}
-
-android {
-    buildFeatures {
-        viewBinding = true
-    }
 }
