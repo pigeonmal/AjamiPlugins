@@ -37,18 +37,20 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     }
 
 
-    override fun init() {
+    fun searchList() {
         val wantedChannelNames = wantedChannels.map { it.name }
 
-        const listOhaChannels: List<OhaChannel> = app.get("https://oha.to/channels").parsedSafe<List<OhaChannel>>()
-        channelsList = listOhaChannels
+        val listOhaChannels = app.get("https://oha.to/channels").parsedSafe<List<OhaChannel>>()
+        if (listOhaChannels != null) {
+             channelsList = listOhaChannels
                 .filter { it.name in wantedChannelNames }
                 .map { ohaChannel ->
                     val wantedChannel = wantedChannels.find { it.name == ohaChannel.name }
                     wantedChannel?.let { wantedChannel ->
                       Channel(ohaChannel.name, ohaChannel.id, ohaChannel.country, wantedChannel.poster, wantedChannel.group)
                     }
-                }
+                }   
+        }
     }
 
     override val mainPage = mainPageOf(
@@ -56,6 +58,9 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     )
 
   override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+    if (channelsList.isEmpty()) {
+        searchList()
+    }
     val channels = channelsList.filter { it.group == request.data }
     val livesList: List<LiveSearchResponse>? = channels?.map { channel ->
         LiveSearchResponse(
