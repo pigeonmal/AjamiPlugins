@@ -44,12 +44,12 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         if (listOhaChannels != null) {
              channelsList = listOhaChannels
                 .filter { it.name in wantedChannelNames }
-                .map { ohaChannel ->
+                .mapNotNull { ohaChannel ->
                     val wantedChannel = wantedChannels.find { it.name == ohaChannel.name }
                     wantedChannel?.let { wantedChannel ->
                       Channel(ohaChannel.name, ohaChannel.id, ohaChannel.country, wantedChannel.poster, wantedChannel.group)
                     }
-                }   
+                }.filterNotNull()
         }
     }
 
