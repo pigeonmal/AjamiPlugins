@@ -21,7 +21,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     override val supportedTypes = setOf(TvType.Live)
     override var lang = "ar"
     override val hasMainPage = true
-    var channelsList: List<Channel> = emptyList()
+    var channelsList: ArrayList<OhaChannel> = emptyList()
 
     data class wantedChannel(
         val group: String,
@@ -45,7 +45,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     if (channelsList.isEmpty()) {
         val wantedChannelNames = wantedChannels.map { it.name }
 
-        val listOhaChannels:List<OhaChannel> = app.get("https://oha.to/channels").parsedSafe<OhaChannels>()?.channels ?: emptyList()
+        val listOhaChannels:ArrayList<OhaChannel> = app.get("https://oha.to/channels").parsedSafe<OhaChannels>()?.channels ?: emptyList()
              channelsList = listOhaChannels
                 .filter { it.name in wantedChannelNames }
                 .mapNotNull { ohaChannel ->
