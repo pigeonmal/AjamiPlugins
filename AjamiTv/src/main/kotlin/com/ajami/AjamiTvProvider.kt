@@ -91,12 +91,12 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         val channelData = parseJson<Channel>(url)
         val idlive = channelData.id
         val currentTimeMillis = System.currentTimeMillis()
-        println("---------------------------------------------------------\n" + (currentTimeMillis - initcurrentTimeMillis) + "\n-----------------------------------------------------------------")
-        if (currentTimeMillis - initcurrentTimeMillis >= 2000)  {
-            val id = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
-            if (id != null) {
+        println(>>" + (currentTimeMillis - initcurrentTimeMillis))
+        if (currentTimeMillis - initcurrentTimeMillis >= 1000)  {
+          //  val id = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
+          //  if (id != null) {
                 activity?.navigate(
-               id,
+               R.id.global_to_navigation_player,
                 GeneratorPlayer.newInstance(
                     LinkGenerator(
                         listOf(BasicLink("$mainUrl$idlive/index.m3u8")),
@@ -105,7 +105,7 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
                     )
                 )
             )
-            }
+           // }
         }
         
  
