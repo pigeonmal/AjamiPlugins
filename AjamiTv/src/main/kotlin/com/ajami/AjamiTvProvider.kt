@@ -47,7 +47,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
 
         val req = app.get("https://oha.to/channels")
         println(req.toString())
-        val listOhaChannels:ArrayList<OhaChannel> = req.parsedSafe<ArrayList<OhaChannel>>() ?: emptyArrayList()
+        val listOhaChannels:ArrayList<OhaChannel> = req.parsedSafe<ArrayList<OhaChannel>>() ?: arrayListOf<OhaChannel>()
         val filtredChannels:List<Channel> = listOhaChannels
     .filter { it.name in wantedChannelNames }
     .mapNotNull { ohaChannel ->
