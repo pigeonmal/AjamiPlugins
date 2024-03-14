@@ -127,9 +127,9 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     )
 
     data class OhaChannel(
-        @JsonProperty("country") val country: String,
-        @JsonProperty("id") val id: Long,
-        @JsonProperty("name") val name: String,
+        @JsonProperty("country") val country: String? = null,
+        @JsonProperty("id") val id: Long? = null,
+        @JsonProperty("name") val name: String? = null,
     )
 
 
