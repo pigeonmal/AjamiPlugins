@@ -24,7 +24,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     override var lang = "ar"
     override val hasMainPage = true
     var channelsList: List<Channel> = emptyList()
-
+    var initcurrentTimeMillis = System.currentTimeMillis()
 
     data class wantedChannel(
         val group: String,
@@ -37,8 +37,6 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
             wantedChannel("bp", "BEIN SPORTS PREMIUM 2 FHD |D", "https://media.discordapp.net/attachments/1052649740732481569/1215346089889366016/beinpremium1.png?ex=65fc6a3f&is=65e9f53f&hm=6685ca814e33ecb5c48fd35bec8daf55485e748f89d3cdbabd3f156cf5e96f31&=&format=png&quality=lossless"),
             wantedChannel("bp", "BEIN SPORTS PREMIUM 3 FHD |D", "https://media.discordapp.net/attachments/1052649740732481569/1215346409835077765/beinpremium1.png?ex=65fc6a8c&is=65e9f58c&hm=3f8ba9140d55c59528cefa6f603415da735fe1caaa518c598283b009f6cee53f&=&format=png&quality=lossless")
             ) 
-        val initcurrentTimeMillis = System.currentTimeMillis()
-
     }
 
 
@@ -51,6 +49,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         return null;
     }
     if (channelsList.isEmpty()) {
+        initcurrentTimeMillis = System.currentTimeMillis()
         val wantedChannelNames = wantedChannels.map { it.name }
 
         val req = app.get("https://oha.to/channels")
