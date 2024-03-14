@@ -24,6 +24,8 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     override var lang = "ar"
     override val hasMainPage = true
     var channelsList: List<Channel> = emptyList()
+    var hasInited = false
+
 
     data class wantedChannel(
         val group: String,
@@ -55,15 +57,15 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         val listOhaChannels: List<OhaChannel> = mapper.readValue(req.text, typeReference)
 
         val filtredChannels:List<Channel> = listOhaChannels
-    .filter { it.name in wantedChannelNames }
-    .mapNotNull { ohaChannel ->
-        val wc = wantedChannels.find { it.name == ohaChannel.name }
-        wc?.let {
-            Channel(ohaChannel.name, ohaChannel.id.toString(), ohaChannel.country, wc.poster, wc.group)
+        .filter { it.name in wantedChannelNames }
+        .mapNotNull { ohaChannel ->
+            val wc = wantedChannels.find { it.name == ohaChannel.name }
+            wc?.let {
+                Channel(ohaChannel.name, ohaChannel.id.toString(), ohaChannel.country, wc.poster, wc.group)
+            }
         }
-    }
-    .filterNotNull()
-    channelsList = filtredChannels
+        .filterNotNull()
+        channelsList = filtredChannels
         
     }
     val channels = channelsList.filter { it.group == request.data }
@@ -85,7 +87,8 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     override suspend fun load(url: String): LoadResponse {
         val channelData = parseJson<Channel>(url)
         val idlive = channelData.id
-         activity?.navigate(
+        if (hasInited) {
+        activity?.navigate(
                 R.id.global_to_navigation_player,
                 GeneratorPlayer.newInstance(
                     LinkGenerator(
@@ -95,6 +98,11 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
                     )
                 )
             )
+        } else {
+            hasInited = true
+        }
+   
+ 
         return LiveStreamLoadResponse(
             channelData.name,
            "$mainUrl$idlive/index.m3u8",
