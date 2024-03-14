@@ -45,7 +45,10 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         "bp" to "⚽ Bein Sports Premium",
     )
 
-  override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
+  override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse? {
+    if (page >= 1) {
+        return;
+    }
     if (channelsList.isEmpty()) {
         val wantedChannelNames = wantedChannels.map { it.name }
 
@@ -88,6 +91,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         val channelData = parseJson<Channel>(url)
         val idlive = channelData.id
         if (hasInited) {
+            println(idlive)
         activity?.navigate(
                 R.id.global_to_navigation_player,
                 GeneratorPlayer.newInstance(
