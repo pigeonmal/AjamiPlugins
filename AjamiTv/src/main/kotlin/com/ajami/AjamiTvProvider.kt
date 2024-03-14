@@ -12,7 +12,9 @@ import com.lagradost.cloudstream3.CommonActivity.activity
 import com.lagradost.cloudstream3.utils.UIHelper.navigate
 import com.lagradost.cloudstream3.R
 import com.fasterxml.jackson.annotation.JsonProperty
-
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.core.type.TypeReference
 
 class AjamiTvProvider : MainAPI() { // all providers must be an instance of MainAPI
     override var mainUrl = "https://oha.to/play/"
@@ -45,7 +47,13 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     if (channelsList.isEmpty()) {
         val wantedChannelNames = wantedChannels.map { it.name }
 
-        val listOhaChannels:List<OhaChannel> = app.get("https://oha.to/channels").parsedSafe<List<OhaChannel>>() ?: emptyList()
+        val req = app.get("https://oha.to/channels")
+        val mapper = jacksonObjectMapper()
+
+        val typeReference = object : TypeReference<List<OhaChannel>>() {}
+
+        val listOhaChannels: List<OhaChannel> = mapper.readValue(req.text, typeReference)
+
         val filtredChannels:List<Channel> = listOhaChannels
     .filter { it.name in wantedChannelNames }
     .mapNotNull { ohaChannel ->
