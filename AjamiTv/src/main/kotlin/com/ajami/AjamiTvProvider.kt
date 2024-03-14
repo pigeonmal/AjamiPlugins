@@ -91,7 +91,7 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         val channelData = parseJson<Channel>(url)
         val idlive = channelData.id
         val currentTimeMillis = System.currentTimeMillis()
-        println(>>" + (currentTimeMillis - initcurrentTimeMillis))
+        println(">>" + (currentTimeMillis - initcurrentTimeMillis))
         if (currentTimeMillis - initcurrentTimeMillis >= 1000)  {
           //  val id = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
           //  if (id != null) {
