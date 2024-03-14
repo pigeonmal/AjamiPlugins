@@ -119,9 +119,9 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
     }
 
     data class Channel(
-        val name: String,
+        val name: String? = null,
         val id: String,
-        val country: String,
+        val country: String? = null,
         val poster: String,
         val group: String
     )
