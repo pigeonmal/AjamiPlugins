@@ -16,7 +16,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.core.type.TypeReference
 
-class AjamiTvProvider : MainAPI() { // all providers must be an instance of MainAPI
+class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers must be an instance of MainAPI
     override var mainUrl = "https://oha.to/play/"
     override var name = "AjamiTv"
     override val hasDownloadSupport = false
@@ -91,10 +91,12 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
         val channelData = parseJson<Channel>(url)
         val idlive = channelData.id
         val currentTimeMillis = System.currentTimeMillis()
-        println("-------------------------\n" + (currentTimeMillis - initcurrentTimeMillis) + "\n-------------------------")
+        println("---------------------------------------------------------\n" + (currentTimeMillis - initcurrentTimeMillis) + "\n-----------------------------------------------------------------")
         if (currentTimeMillis - initcurrentTimeMillis >= 2000)  {
-            activity?.navigate(
-                R.id.global_to_navigation_player,
+            val id = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
+            if (id != null) {
+                activity?.navigate(
+               id,
                 GeneratorPlayer.newInstance(
                     LinkGenerator(
                         listOf(BasicLink("$mainUrl$idlive/index.m3u8")),
@@ -103,6 +105,7 @@ class AjamiTvProvider : MainAPI() { // all providers must be an instance of Main
                     )
                 )
             )
+            }
         }
         
  
