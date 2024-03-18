@@ -8,7 +8,6 @@ import com.lagradost.cloudstream3.utils.Qualities
 import com.lagradost.cloudstream3.ui.player.GeneratorPlayer
 import com.lagradost.cloudstream3.ui.player.BasicLink
 import com.lagradost.cloudstream3.ui.player.LinkGenerator
-import com.lagradost.cloudstream3.CommonActivity.activity
 import com.lagradost.cloudstream3.utils.UIHelper.navigate
 import com.lagradost.cloudstream3.R
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -81,6 +80,7 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
             posterUrl = channel.poster
         )
     }
+
     // Assuming newHomePageResponse accepts a list of SearchResponse
     val searchResponseList: List<SearchResponse> = livesList.orEmpty() // Convert to List<SearchResponse>
     return newHomePageResponse(request.name, searchResponseList)
@@ -95,7 +95,7 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         if (currentTimeMillis - initcurrentTimeMillis >= 1000)  {
           //  val id = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
           //  if (id != null) {
-                activity?.navigate(
+                plugin.activity?.navigate(
                R.id.global_to_navigation_player,
                 GeneratorPlayer.newInstance(
                     LinkGenerator(
@@ -154,9 +154,6 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         @JsonProperty("name") val name: String,
         @JsonProperty("p") val p: Int?=null
     )
-
-
-
 
     override suspend fun search(query: String): List<SearchResponse> {
         return listOf<SearchResponse>()
