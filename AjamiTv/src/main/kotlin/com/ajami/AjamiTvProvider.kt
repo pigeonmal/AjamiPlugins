@@ -34,11 +34,11 @@ class AjamiTvProvider() : MainAPI() { // all providers must be an instance of Ma
             wantedChannel("bp", "BEIN SPORTS PREMIUM 1", "https://media.discordapp.net/attachments/1052649740732481569/1215345348818636820/beinpremium1.png?ex=65fc698f&is=65e9f48f&hm=78a133a0068ff47ab9176877bed0608aa013529367030a6656608de6480e293b&=&format=png&quality=lossless"),
             wantedChannel("bp", "BEIN SPORTS PREMIUM 2", "https://media.discordapp.net/attachments/1052649740732481569/1215346089889366016/beinpremium1.png?ex=65fc6a3f&is=65e9f53f&hm=6685ca814e33ecb5c48fd35bec8daf55485e748f89d3cdbabd3f156cf5e96f31&=&format=png&quality=lossless"),
             wantedChannel("bp", "BEIN SPORTS PREMIUM 3", "https://media.discordapp.net/attachments/1052649740732481569/1215346409835077765/beinpremium1.png?ex=65fc6a8c&is=65e9f58c&hm=3f8ba9140d55c59528cefa6f603415da735fe1caaa518c598283b009f6cee53f&=&format=png&quality=lossless"),
-            wantedChannel("bp", "BEIN SPORTS 1", "https://logowik.com/content/uploads/images/bein-sports-13097.logowik.com.webp", listOf("premium", "max")),
-            wantedChannel("bp", "BEIN SPORTS 2", "https://logowik.com/content/uploads/images/bein-sports-25584.logowik.com.webp", listOf("premium", "max")),
-            wantedChannel("bp", "BEIN SPORTS 3", "https://logowik.com/content/uploads/images/bein-sports-31536.logowik.com.webp", listOf("premium", "max")),
-            wantedChannel("bp", "BEIN SPORTS 4", "https://www.infosfoot.net/wp-content/uploads/2021/04/a3b61862a7fee714bf609af50e419b57.jpg", listOf("premium", "max")),
-            wantedChannel("bp", "BEIN SPORTS 5", "https://static.wikia.nocookie.net/logopedia/images/8/87/BS5.svg/revision/latest?cb=20200107204133", listOf("premium", "max")),
+            wantedChannel("bp", "BEIN SPORTS 1", "https://postersprints.com/wp-content/uploads/2018/04/1076.jpg", listOf("premium", "max", "xtra", "premiem", "afc")),
+            wantedChannel("bp", "BEIN SPORTS 2", "https://ih1.redbubble.net/image.869970758.1635/fposter,small,wall_texture,product,750x1000.jpg", listOf("premium", "max", "xtra", "premiem", "afc")),
+            wantedChannel("bp", "BEIN SPORTS 3", "https://ih1.redbubble.net/image.3229495276.5000/fposter,small,wall_texture,product,750x1000.u1.jpg", listOf("premium", "max", "xtra", "premiem", "afc")),
+            wantedChannel("bp", "BEIN SPORTS 4", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDw6NiYZ7-N1zOC1kwXXf2QLphU2uWJkpaGQ&usqp=CAU", listOf("premium", "max", "xtra", "premiem", "afc")),
+            wantedChannel("bp", "BEIN SPORTS 5", "https://ih1.redbubble.net/image.2751178201.6323/fposter,small,wall_texture,product,750x1000.jpg", listOf("premium", "max", "xtra", "premiem", "afc")),
             )
         val forbiddenWords = listOf("sd", "1mb", "low", "(backup)")
     }
