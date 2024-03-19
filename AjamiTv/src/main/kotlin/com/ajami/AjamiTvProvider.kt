@@ -115,7 +115,7 @@ class AjamiTvProvider() : MainAPI() { // all providers must be an instance of Ma
         channelsList.filter { channel ->
             val channelName = channel.name
             val splitedChannelName = channelName.toLowerCase().split(" ")
-            splitedWords.all { item -> splitedChannelName.contains(item) } && (forbiddenWords + (channel.unwantedChannels ?: emptyList())).none { item -> splitedChannelName.contains(item) }
+            splitedWords.all { item -> splitedChannelName.contains(item) } && forbiddenWords.plus(channel.unwantedChannels ?: emptyList()).none { item -> splitedChannelName.contains(item) }
         }.forEach { channel ->
             callback.invoke(
                 ExtractorLink(
