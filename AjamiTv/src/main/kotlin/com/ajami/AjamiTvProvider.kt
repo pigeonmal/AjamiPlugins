@@ -8,22 +8,20 @@ import com.lagradost.cloudstream3.utils.Qualities
 import com.lagradost.cloudstream3.ui.player.GeneratorPlayer
 import com.lagradost.cloudstream3.ui.player.BasicLink
 import com.lagradost.cloudstream3.ui.player.LinkGenerator
-import com.lagradost.cloudstream3.utils.UIHelper.navigate
 import com.lagradost.cloudstream3.R
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.core.type.TypeReference
 
-class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers must be an instance of MainAPI
+class AjamiTvProvider() : MainAPI() { // all providers must be an instance of MainAPI
     override var mainUrl = "https://oha.to/play/"
     override var name = "AjamiTv"
     override val hasDownloadSupport = false
     override val supportedTypes = setOf(TvType.Live)
     override var lang = "ar"
     override val hasMainPage = true
-    var channelsList: List<Channel> = emptyList()
-    var initcurrentTimeMillis = System.currentTimeMillis()
+    var channelsList: List<OhaChannel> = emptyList()
 
     data class wantedChannel(
         val group: String,
@@ -32,15 +30,16 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
     )
     companion object {
         val wantedChannels = listOf(
-            wantedChannel("bp", "BEIN SPORTS PREMIUM 1 FHD |D", "https://media.discordapp.net/attachments/1052649740732481569/1215345348818636820/beinpremium1.png?ex=65fc698f&is=65e9f48f&hm=78a133a0068ff47ab9176877bed0608aa013529367030a6656608de6480e293b&=&format=png&quality=lossless"),
-            wantedChannel("bp", "BEIN SPORTS PREMIUM 2 FHD |D", "https://media.discordapp.net/attachments/1052649740732481569/1215346089889366016/beinpremium1.png?ex=65fc6a3f&is=65e9f53f&hm=6685ca814e33ecb5c48fd35bec8daf55485e748f89d3cdbabd3f156cf5e96f31&=&format=png&quality=lossless"),
-            wantedChannel("bp", "BEIN SPORTS PREMIUM 3 FHD |D", "https://media.discordapp.net/attachments/1052649740732481569/1215346409835077765/beinpremium1.png?ex=65fc6a8c&is=65e9f58c&hm=3f8ba9140d55c59528cefa6f603415da735fe1caaa518c598283b009f6cee53f&=&format=png&quality=lossless")
-            ) 
+            wantedChannel("bp", "BEIN SPORTS PREMIUM 1", "https://media.discordapp.net/attachments/1052649740732481569/1215345348818636820/beinpremium1.png?ex=65fc698f&is=65e9f48f&hm=78a133a0068ff47ab9176877bed0608aa013529367030a6656608de6480e293b&=&format=png&quality=lossless"),
+            wantedChannel("bp", "BEIN SPORTS PREMIUM 2", "https://media.discordapp.net/attachments/1052649740732481569/1215346089889366016/beinpremium1.png?ex=65fc6a3f&is=65e9f53f&hm=6685ca814e33ecb5c48fd35bec8daf55485e748f89d3cdbabd3f156cf5e96f31&=&format=png&quality=lossless"),
+            wantedChannel("bp", "BEIN SPORTS PREMIUM 3", "https://media.discordapp.net/attachments/1052649740732481569/1215346409835077765/beinpremium1.png?ex=65fc6a8c&is=65e9f58c&hm=3f8ba9140d55c59528cefa6f603415da735fe1caaa518c598283b009f6cee53f&=&format=png&quality=lossless")
+            )
+        val forbiddenWords = listOf("sd", "1mb", "low", "(backup)")
     }
 
 
     override val mainPage = mainPageOf(
-        "bp" to "⚽ Bein Sports Premium",
+        "bp" to "⚽ Bein Sports",
     )
 
   override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse? {
@@ -57,8 +56,8 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         val typeReference = object : TypeReference<List<OhaChannel>>() {}
 
         val listOhaChannels: List<OhaChannel> = mapper.readValue(req.text, typeReference)
-
-        val filtredChannels:List<Channel> = listOhaChannels
+        channelsList = listOhaChannels
+       /* val filtredChannels:List<Channel> = listOhaChannels
         .filter { it.name in wantedChannelNames }
         .mapNotNull { ohaChannel ->
             val wc = wantedChannels.find { it.name == ohaChannel.name }
@@ -67,10 +66,10 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
             }
         }
         .filterNotNull()
-        channelsList = filtredChannels
+        channelsList = filtredChannels*/
         
     }
-    val channels = channelsList.filter { it.group == request.data }
+    val channels = wantedChannels.filter { it.group == request.data }
     val livesList: List<LiveSearchResponse>? = channels.map { channel ->
         LiveSearchResponse(
             channel.name,
@@ -88,30 +87,11 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
 
 
     override suspend fun load(url: String): LoadResponse {
-        val channelData = parseJson<Channel>(url)
-        val idlive = channelData.id
-        val currentTimeMillis = System.currentTimeMillis()
-        println(">>" + (currentTimeMillis - initcurrentTimeMillis))
-        if (currentTimeMillis - initcurrentTimeMillis >= 1000)  {
-          //  val id = plugin.resources!!.getIdentifier("global_to_navigation_player", "id", BuildConfig.LIBRARY_PACKAGE_NAME)
-          //  if (id != null) {
-                plugin.activity?.navigate(
-               R.id.global_to_navigation_player,
-                GeneratorPlayer.newInstance(
-                    LinkGenerator(
-                        listOf(BasicLink("$mainUrl$idlive/index.m3u8")),
-                        extract = true,
-                        isM3u8 = true
-                    )
-                )
-            )
-           // }
-        }
-        
+        val channelData = parseJson<wantedChannel>(url)
  
         return LiveStreamLoadResponse(
             channelData.name,
-           "$mainUrl$idlive/index.m3u8",
+           "Oha",
            this.name,
            url,
            channelData.poster
@@ -124,19 +104,25 @@ class AjamiTvProvider(val plugin : AjamiTvPlugin) : MainAPI() { // all providers
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        val channelData = parseJson<Channel>(data)
-        val id = channelData.id
-
-        callback.invoke(
-            ExtractorLink(
-                this.name,
-                channelData.name,
-              "$mainUrl$id/index.m3u8",
-                "",
-                Qualities.Unknown.value,
-                isM3u8 = true
+        val channelData = parseJson<wantedChannel>(data)
+        val searchname = channelData.name
+        val splitedWords = searchname.toLowerCase().split(" ")
+        channels.filter { channel ->
+            val channelName = channel.name
+            val splitedChannelName = channelName.toLowerCase().split(" ")
+            splitedWords.all { item -> splitedChannelName.contains(item) } && forbiddenWords.none { item -> splitedChannelName.contains(item) }
+        }.forEach { channel ->
+            callback.invoke(
+                ExtractorLink(
+                    this.name,
+                    channel.name,
+                    "$mainUrl${channel.id.toString()}/index.m3u8",
+                    "https://oha.to/",
+                    Qualities.Unknown.value,
+                    isM3u8 = true
+                    )
             )
-        )
+        }
         return true
     }
 
