@@ -90,7 +90,7 @@ class AjamiTvProvider() : MainAPI() { // all providers must be an instance of Ma
  
         return LiveStreamLoadResponse(
             channelData.name,
-           "Oha",
+           channelData.name,
            this.name,
            url,
            channelData.poster
