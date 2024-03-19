@@ -47,7 +47,6 @@ class AjamiTvProvider() : MainAPI() { // all providers must be an instance of Ma
         return null;
     }
     if (channelsList.isEmpty()) {
-        initcurrentTimeMillis = System.currentTimeMillis()
         val wantedChannelNames = wantedChannels.map { it.name }
 
         val req = app.get("https://oha.to/channels")
@@ -107,7 +106,7 @@ class AjamiTvProvider() : MainAPI() { // all providers must be an instance of Ma
         val channelData = parseJson<wantedChannel>(data)
         val searchname = channelData.name
         val splitedWords = searchname.toLowerCase().split(" ")
-        channels.filter { channel ->
+        channelsList.filter { channel ->
             val channelName = channel.name
             val splitedChannelName = channelName.toLowerCase().split(" ")
             splitedWords.all { item -> splitedChannelName.contains(item) } && forbiddenWords.none { item -> splitedChannelName.contains(item) }
