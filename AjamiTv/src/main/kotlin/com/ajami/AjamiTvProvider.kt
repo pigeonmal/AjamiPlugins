@@ -27,7 +27,7 @@ class AjamiTvProvider() : MainAPI() { // all providers must be an instance of Ma
         val group: String,
         val name: String,
         val poster: String,
-        unwantedChannels: List<String>
+        val unwantedChannels: List<String>? = null
     )
     companion object {
         val wantedChannels = listOf(
